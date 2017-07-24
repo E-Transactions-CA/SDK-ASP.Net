@@ -1,0 +1,50 @@
+﻿body {
+}
+
+#topContent
+{
+    font-weight: bolder;
+    font-size:large;
+    height:50px;
+    line-height: 50px;
+    text-align: center;
+    border: 2px dashed #f69c55;
+}
+
+#EnvironnementDiv
+{
+    font-weight: bold;
+    font-size:large;
+    height:25px;
+    line-height: 25px;
+    text-align: right;
+    padding-right:10%;
+}
+
+#sectionForDiv
+{
+    width: 80%;
+    margin-left: 5%;
+    background: aqua;
+}
+
+.ParamNames
+{
+    float : right;
+    margin-right:25%;
+}
+
+.RadioButtonLists
+{
+    display: inline-block;
+    float:left;
+}
+
+div#InputBoxes
+{
+    margin-left:15px;
+    width:550px;
+    height: 200px;
+    text-align: left;
+    float:left;
+}

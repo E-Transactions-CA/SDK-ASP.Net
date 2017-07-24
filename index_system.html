@@ -1,0 +1,128 @@
+﻿<!--  This is a test example: the configuration needs to be managed with the required parameters as per requirements -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="/System_ePayment/css/ePayment-sdk.css" rel="stylesheet" type="text/css">
+    <title>Test System HMAC Payment</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function () {
+        $("input[name='chkPayTimes']").click(function () {
+            if ($("#chkYes").is(":checked")) {
+                $("#dvMultiple").show();
+                $("#dvAll").hide();
+            } else {
+                $("#dvMultiple").hide();
+                $("#dvAll").show();
+            }
+        });
+    });
+function init() {
+	date = new Date();
+	var day = date.getDate() + 1;
+	var month = date.getMonth() + 1;
+	var year = date.getYear() < 1900 ? date.getYear() + 1900 : date.getYear();
+	document.getElementById('timesDate1').value = (day < 10 ? '0' + day : day) +""+ (month < 10 ? '0' + month : month) +""+ year;
+	document.getElementById('CMD').value = "TestTransaction"+ Math.floor((date.getTime() - 135000)/100) ;
+	}
+    </script>
+</head>
+<body onload="init();">
+    <h1>Payment Information Test Example</h1>
+    <form action="/System_ePayment/ePayment.aspx" method="POST">
+        <span>
+            <b>ENVIRONMENT</b> <select id="dropdownEnvlist"
+                                       name="dropdownEnvlist">
+                <option value="preprod">Preproduction</option>
+                <option value="prod" disabled>Production</option>
+            </select>
+        </span> <br> <br>
+        <hr>
+        <i><label for="SITE">SITE</label> </i>
+        <input id="SITE" name="SITE" value="1999887" size="7" maxlength="7" title="Numéro de site" type="text"><br>
+        <i><label for="RANG">RANG</label> </i>
+        <input id="RANG" name="RANG" value="43" size="2" maxlength="2" title="Numéro de rang" type="text"><br>
+
+        <i><label for="IDENTIFIANT">IDENTIFIANT</label> </i>
+        <input id="IDENTIFIANT" name="IDENTIFIANT" value="2" size="2" maxlength="2" title="Numéro de identifiant" type="text"><br>
+
+        <i><label for="MONTANT">MONTANT</label> </i>
+        <input id="MONTANT" name="MONTANT" value="10.00" size="10" maxlength="10" title="Montant (en centimes)" type="text"> EUR<br>
+
+        <i><label for="DEVISE">DEVISE</label> </i>
+        <input id="DEVISE" name="DEVISE" value="978" title="Devise (code numérique) (978=Euro, 840=Dollar, ...)" type="text"><br>
+
+        <i>	<label for="CMD">CMD</label> </i>
+        <input id="CMD" name="CMD" value="" size="40" maxlength="100" title="Référence de la commande" type="text"><br>
+
+        <i><label for="PORTEUR">PORTEUR</label> </i>
+        <input readOnly id="PORTEUR" name="PORTEUR" value="test@exemple.com" title="email" type="text"><br>
+
+        <input id="HASH" name="HASH" value="SHA512" type="hidden"><br>
+
+        <input id="TYPE" name="TYPE" value="001" type="hidden"><br>
+        <input id="VERSION" name="VERSION" value="001" type="hidden"><br>
+
+        <!-- use this block if you want to force the payment type and mode -->
+        <!-- else remove this block -->
+        <input id="TYPEPAIEMENT" name="TYPEPAIEMENT" value="CARTE" type="hidden"><br>
+        <i><label>Card Type for Payment  :</label></i>
+        <input type="radio" name="typeCard" value="CB" checked> CB </input>
+        <input type="radio" name="typeCard" value="AMEX" disabled> AMEX </input>
+        <input type="radio" name="typeCard" value="VISA" disabled> VISA </input>
+        <input type="radio" name="typeCard" value="DINERS" disabled> DINERS </input>
+        <input type="radio" name="typeCard" value="MASTERCARD" disabled> MASTERCARD </input>
+        <input type="radio" name="typeCard" value="JCB" disabled> JCB  </input><br><br>
+        <!--this block  -->
+
+        <i><label for="NUMABONNEMENT">NUMABONNEMENT</label> </i>
+        <input id="NUMABONNEMENT" name="NUMABONNEMENT" value="8539014" title="Numéro d'ABONNEMENT" type="text"><br>
+
+        <i><label><span>Do you want to pay in multiple times</span></label></i>
+        <label for="chkYes">
+            <input type="radio" id="chkYes" name="chkPayTimes" value="Yes" />
+            Yes
+        </label>
+        <label for="chkNo">
+            <input type="radio" id="chkNo" name="chkPayTimes" value="No" checked />
+            No
+        </label><br> <br>
+
+        <!-- the parameters for payment in mulitple times-->
+        <div id="dvMultiple" style="display: none">
+            <i><label><span>Time(s) </span></label></i>
+            <select id="dropdownMultTimeslist" name="dropdownMultTimeslist">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select><br><br>
+            <i>Amount debit 1 :</i>
+            <input type="text" id="timesAmount1" name="timesAmount1" />
+            <i>Amount debit date 1 :</i>
+            <input type="date" id="timesDate1" name="timesDate1" />
+            <br><br>
+            <i>Amount debit 2 :</i>
+            <input type="text" id="timesAmount2" name="timesAmount2" />
+            <i>Amount debit date 2 :</i>
+            <input type="date" id="timesDate2" name="timesDate2" />
+            <br><br>
+            <i>Amount debit  3 :</i>
+            <input type="text" id="timesAmount3" name="timesAmount3" />
+            <i>Amount debit date  3 :</i>
+            <input type="date" id="timesDate3" name="timesDate3" />
+            <br><br>
+
+            <input type="submit" name="submitButtonMultiple" value="Payment Multiple times" />
+        </div>
+        <br>   <br>
+        <div id="dvAll" style="display: show">
+            <input type="submit" name="submitButtonClassic" value="Payment Classic" />
+            <input type="submit" name="submitButtonAutoS" value="Payment Without Capture" />
+            <input type="submit" name="submitButtonDeferred" value="Payment Deferred" />
+            <input type="submit" name="submitButtonSubscription" value="Payment With Subscription" />
+            <input type="submit" name="submitButtonSubscriptionCancel" value="Cancellation of Subscription" />
+        </div>
+    </form>
+</body>
+</html>
